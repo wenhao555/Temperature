@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -27,12 +29,24 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
+    private WebView wv_webview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        requestData();
+        wv_webview = findViewById(R.id.wv_webview);
+        //访问网页
+        wv_webview.loadUrl("http://x.nlecloud.com/my/login?returnUrl=/project/47142/app");
+//系统默认会通过手机浏览器打开网页，为了能够直接通过WebView显示网页，则必须设置
+        wv_webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//使用WebView加载显示url
+                view.loadUrl(url);
+                return true;
+            }
+        });
     }
 
 
